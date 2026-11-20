@@ -27,6 +27,23 @@ export default function ChatWorkstationPage() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    try {
+      const storedMsgs = localStorage.getItem("pulsechat_messages");
+      if (storedMsgs) setMessages(JSON.parse(storedMsgs));
+
+      const storedChans = localStorage.getItem("pulsechat_channels");
+      if (storedChans) setChannels(JSON.parse(storedChans));
+    } catch (e) {}
+  }, []);
+
+  const saveMessages = (updated: Record<string, Message[]>) => {
+    setMessages(updated);
+    try {
+      localStorage.setItem("pulsechat_messages", JSON.stringify(updated));
+    } catch (e) {}
+  };
+
   const activeChannel = channels.find((c) => c.id === activeChannelId) || channels[0];
   const channelMessages = (messages[activeChannelId] || []).filter((m) =>
     m.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -38,7 +55,7 @@ export default function ChatWorkstationPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, activeChannelId]);
 
-  // Simulate remote typing activity periodically
+  // Periodic active colleague typing indicator
   useEffect(() => {
     const timer = setTimeout(() => {
       setTypingUser("Marcus Chen");
@@ -50,7 +67,7 @@ export default function ChatWorkstationPage() {
       }, 3500);
 
       return () => clearTimeout(stopTimer);
-    }, 6000);
+    }, 8000);
 
     return () => clearTimeout(timer);
   }, [activeChannelId]);
@@ -72,15 +89,17 @@ export default function ChatWorkstationPage() {
       reactions: [],
     };
 
-    setMessages((prev) => ({
-      ...prev,
-      [activeChannelId]: [...(prev[activeChannelId] || []), newMessage],
-    }));
+    const nextState = {
+      ...messages,
+      [activeChannelId]: [...(messages[activeChannelId] || []), newMessage],
+    };
+    saveMessages(nextState);
 
+    const sentText = inputContent;
     setInputContent("");
 
-    // Simulate real-time bot response for testing
-    if (inputContent.toLowerCase().includes("deploy") || inputContent.toLowerCase().includes("status")) {
+    // Bot automated assistant response
+    if (sentText.toLowerCase().includes("deploy") || sentText.toLowerCase().includes("status") || sentText.toLowerCase().includes("help")) {
       setTimeout(() => {
         const botReply: Message = {
           id: `msg-${Date.now() + 1}`,
@@ -89,52 +108,48 @@ export default function ChatWorkstationPage() {
           senderAvatar: "PB",
           senderRole: "moderator",
           channelId: activeChannelId,
-          content: "⚡ PulseBot Edge Alert: WebSockets broadcast confirmed across 14 points of presence. Current roundtrip latency: 11ms.",
+          content: "⚡ PulseBot Edge Telemetry: WebSockets frame delivered across 14 edge PoPs. Zero packet drops, 11ms mesh roundtrip.",
           timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-          reactions: [{ emoji: "⚡", count: 2, users: [CURRENT_USER.id] }],
+          reactions: [{ emoji: "⚡", count: 1, users: [CURRENT_USER.id] }],
         };
-        setMessages((prev) => ({
-          ...prev,
-          [activeChannelId]: [...(prev[activeChannelId] || []), botReply],
-        }));
-      }, 1200);
+        saveMessages({
+          ...nextState,
+          [activeChannelId]: [...(nextState[activeChannelId] || []), botReply],
+        });
+      }, 900);
     }
   };
 
   const handleAddReaction = (msgId: string, emoji: string) => {
-    setMessages((prev) => {
-      const channelList = prev[activeChannelId] || [];
-      const updated = channelList.map((m) => {
-        if (m.id !== msgId) return m;
-        const existingReaction = m.reactions?.find((r) => r.emoji === emoji);
-        let newReactions = m.reactions ? [...m.reactions] : [];
+    const channelList = messages[activeChannelId] || [];
+    const updated = channelList.map((m) => {
+      if (m.id !== msgId) return m;
+      const existingReaction = m.reactions?.find((r) => r.emoji === emoji);
+      let newReactions = m.reactions ? [...m.reactions] : [];
 
-        if (existingReaction) {
-          if (existingReaction.users.includes(CURRENT_USER.id)) {
-            // Remove reaction
-            newReactions = newReactions
-              .map((r) =>
-                r.emoji === emoji
-                  ? { ...r, count: r.count - 1, users: r.users.filter((u) => u !== CURRENT_USER.id) }
-                  : r
-              )
-              .filter((r) => r.count > 0);
-          } else {
-            // Add user to reaction
-            newReactions = newReactions.map((r) =>
+      if (existingReaction) {
+        if (existingReaction.users.includes(CURRENT_USER.id)) {
+          newReactions = newReactions
+            .map((r) =>
               r.emoji === emoji
-                ? { ...r, count: r.count + 1, users: [...r.users, CURRENT_USER.id] }
+                ? { ...r, count: r.count - 1, users: r.users.filter((u) => u !== CURRENT_USER.id) }
                 : r
-            );
-          }
+            )
+            .filter((r) => r.count > 0);
         } else {
-          newReactions.push({ emoji, count: 1, users: [CURRENT_USER.id] });
+          newReactions = newReactions.map((r) =>
+            r.emoji === emoji
+              ? { ...r, count: r.count + 1, users: [...r.users, CURRENT_USER.id] }
+              : r
+          );
         }
-        return { ...m, reactions: newReactions };
-      });
-
-      return { ...prev, [activeChannelId]: updated };
+      } else {
+        newReactions.push({ emoji, count: 1, users: [CURRENT_USER.id] });
+      }
+      return { ...m, reactions: newReactions };
     });
+
+    saveMessages({ ...messages, [activeChannelId]: updated });
     setShowEmojiPicker(null);
   };
 

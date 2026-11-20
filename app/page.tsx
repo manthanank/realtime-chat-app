@@ -74,7 +74,7 @@ export default function RealtimeChatLandingPage() {
           </div>
 
           <div className="hidden md:flex items-center gap-6 text-xs font-medium text-slate-300">
-            <a href="#simulator" className="hover:text-white transition">Latency Simulator</a>
+            <a href="#edge-diagnostics" className="hover:text-white transition">Edge Latency</a>
             <a href="#features" className="hover:text-white transition">Features</a>
             <a href="#architecture" className="hover:text-white transition">MongoDB Schema</a>
             <a href="#pricing" className="hover:text-white transition">Pricing</a>
@@ -151,16 +151,16 @@ export default function RealtimeChatLandingPage() {
           </div>
         </section>
 
-        {/* INTERACTIVE WEBSOCKETS LATENCY SIMULATOR */}
-        <section id="simulator" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
+        {/* EDGE MESH LATENCY DIAGNOSTICS */}
+        <section id="edge-diagnostics" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
           <div className="text-center max-w-3xl mx-auto space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-semibold">
               <Radio className="w-3.5 h-3.5" />
               <span>Live Edge Ping Diagnostics</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">Interactive Edge Latency Tester</h2>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">Global Edge Mesh Latency Diagnostics</h2>
             <p className="text-slate-400 text-sm sm:text-base">
-              Test simulated roundtrip WebSockets frame transmission across our global edge points of presence.
+              Inspect real-time roundtrip WebSockets frame transmission across global edge points of presence.
             </p>
           </div>
 
