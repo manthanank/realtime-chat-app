@@ -1,0 +1,15 @@
+# PulseChat Real-Time Messaging Workstation Architecture Rules
+
+1. Next.js 15 App Router:
+   - Use Client Components ('use client') for interactive chat streams, typing indicators, emoji reactions, and modal dialogs.
+   - Use Server Components where appropriate for metadata and layouts.
+2. Real-Time Protocol Simulation:
+   - WebSocket / Socket.IO events (message:send, message:receive, typing:start, typing:stop, presence:update, channel:join, reaction:add).
+   - Instant local optimistic message rendering with auto-scroll to bottom.
+3. Database Architecture:
+   - MongoDB document database models defined via Mongoose (User, Channel, Message, Attachment, Reaction).
+   - Strict indexing on channelId + createdAt for sub-10ms chronological message pagination.
+4. UI & Aesthetics:
+   - Dark mode default with slate-950 background, emerald and indigo highlights, glassmorphism blur headers.
+   - Framer motion for animated chat message entries, notification toasts, and modal reveals.
+   - Recharts for team communication velocity and peak messaging hours heatmap.
