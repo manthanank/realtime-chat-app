@@ -42,3 +42,4 @@ PulseChat is an enterprise communication application built with Next.js 15, Type
    ```
 
 4. Open [http://localhost:3000](http://localhost:3000).
+
