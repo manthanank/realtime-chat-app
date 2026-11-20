@@ -68,3 +68,4 @@ module.exports = {
   Channel: mongoose.models.Channel || mongoose.model('Channel', ChannelSchema),
   Message: mongoose.models.Message || mongoose.model('Message', MessageSchema),
 };
+

@@ -13,3 +13,4 @@
    - Dark mode default with slate-950 background, emerald and indigo highlights, glassmorphism blur headers.
    - Framer motion for animated chat message entries, notification toasts, and modal reveals.
    - Recharts for team communication velocity and peak messaging hours heatmap.
+

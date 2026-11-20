@@ -9,3 +9,4 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: "https://realtime-chat-app-manthan.vercel.app/sitemap.xml",
   };
 }
+

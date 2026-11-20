@@ -233,3 +233,4 @@ MessageSchema.index({ channelId: 1, createdAt: -1 });`;
     </div>
   );
 }
+

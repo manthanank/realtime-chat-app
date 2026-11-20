@@ -19,3 +19,4 @@ PulseChat is a high-performance, real-time messaging application designed for mo
 - `/analytics`: Team engagement metrics, message distribution by channel, and peak communication hours.
 - `/settings`: User profile, notification preferences, end-to-end encryption keys, and JSON export.
 - `/api/socket`: Heartbeat and real-time connection status check.
+

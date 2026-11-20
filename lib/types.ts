@@ -55,3 +55,4 @@ export interface DirectConversation {
   lastTimestamp: string;
   unreadCount: number;
 }
+
