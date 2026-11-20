@@ -28,10 +28,29 @@ export default function ChatWorkstationPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    try {
-      const storedMsgs = localStorage.getItem("pulsechat_messages");
-      if (storedMsgs) setMessages(JSON.parse(storedMsgs));
+    fetch("/api/messages")
+      .then((res) => res.json())
+      .then((data) => {
+        try {
+          const storedMsgs = localStorage.getItem("pulsechat_messages");
+          if (storedMsgs) {
+            setMessages(JSON.parse(storedMsgs));
+          } else if (data.messages) {
+            setMessages(data.messages);
+            localStorage.setItem("pulsechat_messages", JSON.stringify(data.messages));
+          }
+        } catch (e) {
+          if (data.messages) setMessages(data.messages);
+        }
+      })
+      .catch(() => {
+        try {
+          const storedMsgs = localStorage.getItem("pulsechat_messages");
+          if (storedMsgs) setMessages(JSON.parse(storedMsgs));
+        } catch (e) {}
+      });
 
+    try {
       const storedChans = localStorage.getItem("pulsechat_channels");
       if (storedChans) setChannels(JSON.parse(storedChans));
     } catch (e) {}
