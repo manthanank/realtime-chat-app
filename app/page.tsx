@@ -57,17 +57,17 @@ export default function RealtimeChatLandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-white">
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col overflow-x-clip selection:bg-emerald-500 selection:text-white">
       {/* Top Navigation */}
       <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-slate-950/90 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-emerald-500 via-teal-500 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-emerald-500/20">
               <MessageSquare className="h-5 w-5" />
             </div>
             <div>
               <span className="font-extrabold text-white text-base tracking-tight">PulseChat</span>
-              <span className="ml-2 px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span className="hidden sm:inline-block ml-2 px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                 WebSockets + MongoDB
               </span>
             </div>
@@ -81,12 +81,13 @@ export default function RealtimeChatLandingPage() {
             <a href="#faq" className="hover:text-white transition">FAQ</a>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               href="/chat"
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-lg shadow-emerald-600/30 transition hover:scale-105 active:scale-95"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-lg shadow-emerald-600/30 transition hover:scale-105 active:scale-95"
             >
-              <span>Open Workstation</span>
+              <span className="hidden sm:inline">Open Workstation</span>
+              <span className="sm:hidden">Open</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
